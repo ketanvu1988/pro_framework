@@ -32,6 +32,26 @@ services:
     depends_on:
       - api-gateway
 
+  api-gateway:
+    build:
+      context: ..
+      dockerfile: services/api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - notification-core
+
+  notification-core:
+    build:
+      context: ..
+      dockerfile: services/notification-core/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - rabbitmq
+
   postgres:
     image: postgres:15
     environment:

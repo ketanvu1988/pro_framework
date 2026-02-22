@@ -9,12 +9,21 @@ echo "Using Project Root: $PROJECT_ROOT"
 # Ensure we are in the deployment directory
 cd "$DEPLOYMENT_DIR"
 
-echo "Stopping existing containers..."
-docker compose down
+# Check for docker compose or docker-compose
+if docker compose version >/dev/null 2>&1; then
+    DOCKER_COMPOSE="docker compose"
+elif docker-compose version >/dev/null 2>&1; then
+    DOCKER_COMPOSE="docker-compose"
+else
+    echo "Error: Neither 'docker compose' nor 'docker-compose' found."
+    exit 1
+fi
+
+echo "Stopping existing containers using $DOCKER_COMPOSE..."
+$DOCKER_COMPOSE down
 
 echo "Building and starting services..."
-# We use --build to ensure any changes in the source code are picked up
-docker compose up --build -d
+$DOCKER_COMPOSE up --build -d
 
 echo "Deployment complete!"
-echo "Check status with: docker compose ps"
+echo "Check status with: $DOCKER_COMPOSE ps"
