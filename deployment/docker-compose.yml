@@ -52,6 +52,24 @@ services:
     depends_on:
       - rabbitmq
 
+  sms-service:
+    build:
+      context: ..
+      dockerfile: services/sms-service/Dockerfile
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - rabbitmq
+
+  whatsapp-service:
+    build:
+      context: ..
+      dockerfile: services/whatsapp-service/Dockerfile
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - rabbitmq
+
   postgres:
     image: postgres:15
     environment:

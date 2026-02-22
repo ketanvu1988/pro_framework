@@ -2,7 +2,7 @@ package com.framework.email.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
