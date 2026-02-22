@@ -1,13 +1,14 @@
 #!/bin/bash
 
-# Configuration
-PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Configuration - Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 DEPLOYMENT_DIR="$PROJECT_ROOT/deployment"
 
 echo "Using Project Root: $PROJECT_ROOT"
 
 # Ensure we are in the deployment directory
-cd "$DEPLOYMENT_DIR"
+cd "$DEPLOYMENT_DIR" || { echo "Could not cd to $DEPLOYMENT_DIR"; exit 1; }
 
 # Check for docker compose or docker-compose
 if docker compose version >/dev/null 2>&1; then
@@ -15,12 +16,15 @@ if docker compose version >/dev/null 2>&1; then
 elif docker-compose version >/dev/null 2>&1; then
     DOCKER_COMPOSE="docker-compose"
 else
-    echo "Error: Neither 'docker compose' nor 'docker-compose' found."
-    exit 1
+    # Check if maybe it's just not in PATH but exists? 
+    # Or just try straight docker-compose since user said it works
+    DOCKER_COMPOSE="docker-compose"
 fi
 
-echo "Stopping existing containers using $DOCKER_COMPOSE..."
-$DOCKER_COMPOSE down
+echo "Using command: $DOCKER_COMPOSE"
+
+echo "Stopping existing containers..."
+$DOCKER_COMPOSE down --remove-orphans
 
 echo "Building and starting services..."
 $DOCKER_COMPOSE up --build -d
