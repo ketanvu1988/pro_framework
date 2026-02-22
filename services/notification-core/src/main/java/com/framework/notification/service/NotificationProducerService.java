@@ -2,6 +2,8 @@ package com.framework.notification.service;
 
 import com.framework.common.dto.NotificationRequest;
 import com.framework.notification.config.RabbitMQConfig;
+import com.framework.notification.model.NotificationTemplate;
+import com.framework.notification.repository.NotificationTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
