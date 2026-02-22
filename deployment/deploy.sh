@@ -16,9 +16,9 @@ if docker compose version >/dev/null 2>&1; then
 elif docker-compose version >/dev/null 2>&1; then
     DOCKER_COMPOSE="docker-compose"
 else
-    # Check if maybe it's just not in PATH but exists? 
-    # Or just try straight docker-compose since user said it works
-    DOCKER_COMPOSE="docker-compose"
+    echo "Error: Neither 'docker compose' nor 'docker-compose' were found on your VM."
+    echo "Please run: apt update && apt install docker-compose-plugin"
+    exit 1
 fi
 
 echo "Using command: $DOCKER_COMPOSE"
