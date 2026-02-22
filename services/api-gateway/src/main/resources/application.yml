@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: notification-core
+          uri: lb://notification-core
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - AuthenticationFilter
+
+jwt:
+  secret: "${JWT_SECRET:defaultSecretKeyWithAtLeast32CharactersLong}"
+  expiration: 86400000
+
+server:
+  port: 8080

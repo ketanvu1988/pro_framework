@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  email-service:
+    build:
+      context: ..
+      dockerfile: services/email-service/Dockerfile
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: your-email@gmail.com
+      SPRING_MAIL_PASSWORD: your-password
+    depends_on:
+      - rabbitmq
+
+  admin-console:
+    build:
+      context: ..
+      dockerfile: frontend/admin-console/Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: framework_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
