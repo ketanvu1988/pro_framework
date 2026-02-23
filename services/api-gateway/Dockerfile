@@ -8,5 +8,5 @@ RUN mvn -f services/api-gateway/pom.xml clean package -DskipTests
 
 # Run stage
 FROM eclipse-temurin:21-jre
-COPY --from=build /app/services/api-gateway/target/*.jar app.jar
+COPY --from=build /app/services/api-gateway/target/api-gateway-1.0.0.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]

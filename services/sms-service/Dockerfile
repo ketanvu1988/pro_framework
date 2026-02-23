@@ -8,5 +8,5 @@ RUN mvn -f services/sms-service/pom.xml clean package -DskipTests
 
 # Run stage
 FROM eclipse-temurin:21-jre
-COPY --from=build /app/services/sms-service/target/*.jar app.jar
+COPY --from=build /app/services/sms-service/target/sms-service-1.0.0.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]

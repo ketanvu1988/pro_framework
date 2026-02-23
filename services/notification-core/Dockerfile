@@ -8,5 +8,5 @@ RUN mvn -f services/notification-core/pom.xml clean package -DskipTests
 
 # Run stage
 FROM eclipse-temurin:21-jre
-COPY --from=build /app/services/notification-core/target/*.jar app.jar
+COPY --from=build /app/services/notification-core/target/notification-core-1.0.0.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
