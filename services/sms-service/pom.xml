@@ -8,6 +8,9 @@
 		<version>3.2.2</version>
 		<relativePath/>
 	</parent>
+	<properties>
+		<java.version>21</java.version>
+	</properties>
 	<groupId>com.framework</groupId>
 	<artifactId>sms-service</artifactId>
 	<version>1.0.0</version>
